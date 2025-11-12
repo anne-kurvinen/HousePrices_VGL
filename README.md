@@ -10,25 +10,24 @@ föreslå förbättringar för att förutsäga huspriser i Västra Götalands l�
 
 Datasetet laddades in och genomgick flera steg för rening och förberedelse:
 
-Kolumner togs bort: Onödiga kolumner som ad_id, date_published och coordenates togs bort.
-Filtrering på hustyp: Endast hus (typology_HOUSE) behölls för analysen.
-Namnbyte av kolumner: Kolumnerna döptes om till svenska namn för tydlighet: land_area_sqm till tomtyta,
-living_area_sqm till boyta, number_rooms till rum, typology_HOUSE till hus, asking_price_sek till utgångspris
-och sqm_price_sek till pris_sqm.
-Extrahering och filtrering av kommun: Kolumnerna address och location slogs samman. Kommunnamnet extraherades
-från kolumnen location, och datasetet filtrerades sedan för att endast inkludera kommuner inom Västra Götalands län
-(baserat på en angiven lista).
-Hantering av saknade värden: Rader med saknade värden eller värdet noll i tomtyta och boyta togs bort.
-Rader med värdet mindre än 1 i rum togs också bort.
-Hantering av extremvärden (Outliers): IQR-metoden (Interquartile Range) tillämpades för att identifiera
-och ta bort extremvärden i de numeriska kolumnerna tomtyta, boyta, rum och utgångspris.
-Imputering av saknade värden: Eventuella kvarvarande saknade numeriska värden fylldes i med medelvärdet
-för respektive kolumn.
-Feature Engineering: En interaktionskolumn, boyta_rum_interaktion, skapades genom att multiplicera boyta med rum.
-One-Hot Encoding: Den kategoriska kolumnen municipality omvandlades till numeriska kolumner med one-hot encoding.
-Skalning: Numeriska features skalades med StandardScaler för att normalisera deras värdeintervall.
-
-Datasetet delades sedan upp i träningsdata (80%) och testdata (20%).
+- Kolumner togs bort: Onödiga kolumner som ad_id, date_published och coordenates togs bort.
+- Filtrering på hustyp: Endast hus (typology_HOUSE) behölls för analysen.
+- Namnbyte av kolumner: Kolumnerna döptes om till svenska namn för tydlighet: land_area_sqm till tomtyta,
+  living_area_sqm till boyta, number_rooms till rum, typology_HOUSE till hus, asking_price_sek till utgångspris
+  och sqm_price_sek till pris_sqm.
+- Extrahering och filtrering av kommun: Kolumnerna address och location slogs samman. Kommunnamnet extraherades
+  från kolumnen location, och datasetet filtrerades sedan för att endast inkludera kommuner inom Västra Götalands län
+  (baserat på en angiven lista).
+- Hantering av saknade värden: Rader med saknade värden eller värdet noll i tomtyta och boyta togs bort.
+  Rader med värdet mindre än 1 i rum togs också bort.
+- Hantering av extremvärden (Outliers): IQR-metoden (Interquartile Range) tillämpades för att identifiera
+  och ta bort extremvärden i de numeriska kolumnerna tomtyta, boyta, rum och utgångspris.
+- Imputering av saknade värden: Eventuella kvarvarande saknade numeriska värden fylldes i med medelvärdet
+  för respektive kolumn.
+- Feature Engineering: En interaktionskolumn, boyta_rum_interaktion, skapades genom att multiplicera boyta med rum.
+- One-Hot Encoding: Den kategoriska kolumnen municipality omvandlades till numeriska kolumner med one-hot encoding.
+- Skalning: Numeriska features skalades med StandardScaler för att normalisera deras värdeintervall.
+- Datasetet delades sedan upp i träningsdata (80%) och testdata (20%).
 
 ### 2. Modellval och träning
 
@@ -50,8 +49,8 @@ R-squared (R²): Mäter hur stor andel av variansen i den beroende variabeln som
 Ett värde närmare 1 indikerar bättre förklaringsförmåga.
 Mean Absolute Error (MAE): Mäter medelvärdet av de absoluta skillnaderna mellan predikterade och
 faktiska värden. Lägre värde indikerar bättre prestanda.
-Prestandan för modellerna var som följer:
 
+Prestandan för modellerna var som följer:
 Modell MSE R-squared MAE
 Linjär Regression 1.9396e+12 0.4890 980087.59
 Random Forest 2.8845e+12 0.3694 1304926.90
@@ -69,8 +68,10 @@ felmarginal i sina prisprediktioner.
 För att förbättra modellernas prestanda kan följande åtgärder övervägas:
 
 Mer avancerad Feature Engineering:
-Slå upp fastigheterna i offentliga fastighetsdatakällor (exempelvis Lantmäteriet eller Booli).
-Eller använda geokoordinaterna för att matcha mot öppna databaser som har byggnadsår kopplat till plats.
+
+Slå upp fastigheterna i offentliga fastighetsdatakällor (exempelvis Lantmäteriet eller Booli) för att hämta byggnadsår
+och inkludera det som en feature. Eller använda geokoordinaterna för att matcha mot öppna databaser som har byggnadsår
+kopplat till plats.
 Skapa fler interaktionstermer mellan relevanta numeriska features.
 Lägg till polynomfunktioner för att fånga icke-linjära samband.
 Inkludera tidsbaserade features om det finns tidsstämplar i datat (t.ex. säsongsvariationer).
@@ -91,4 +92,3 @@ lämpliga för specifika features.
 Datainsamling: Om möjligt, samla in mer relevant data som kan påverka bostadspriser, t.ex. fastighetens ålder, skick,
 renoveringar, närhet till service, brottsstatistik i området, etc.
 Genom att implementera dessa förbättringsförslag kan modellernas förmåga att korrekt förutsäga bostadspriser potentiellt ökas.
-# HousePrices_VGL
